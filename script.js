@@ -175,7 +175,7 @@ class weatherApp {
 
     <div class="weather">
       <img class="weather-img" src="img/img-${
-        day.weathercode
+         day.weathercode
       }-${day._getnightOrDay()}.svg" alt="" />
       <div class="max-min">
         <p class="max">
@@ -210,7 +210,7 @@ class weatherApp {
       new Date(day.timeH[index]).getTime() >= new Date(day.sunset).getTime()
         ? "night"
         : "day"
-    }.svg" alt="weather" />
+    }.svg" alt="" />
     <p class="degree">
       ${Math.round(day.temperatureH[index])}<span><strong>°</strong> </span>
     </p>
