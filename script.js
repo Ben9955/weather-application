@@ -352,6 +352,8 @@ class weatherApp {
       });
 
     document.querySelector(".search").value = "";
+    form.classList.remove("form-active");
+
   }
 
   _toggleForm(e) {
