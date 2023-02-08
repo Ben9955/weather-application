@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
+    <script
+      src="https://kit.fontawesome.com/fc5d0bceec.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script defer src="/script.js"></script>
+    <title>Weather</title>
+  </head>
+  <body>
+    <section class="main">
+      <a href="#"class="hamburger">
+        <span class="bar bar-1"></span><span class="bar bar-2"></span><span class="bar bar-3"></span>
+      </a> 
+      <header class="header">
+        <div class="logo">
+        <div class="logo-img-container">
+          <img class="logo-img" src="/img/weather.svg" alt="" />
+        </div>
+        <h1>Weather</h1> 
+       
+      </div>
+
+      <!-- <a href="#"class="hamburger">
+        <span class="bar bar-1"></span><span class="bar bar-2"></span><span class="bar bar-3"></span>
+      </a>         -->
+        
+        
+        <form class="form">
+          <div class="search-container">
+            <input
+              class="search"
+              type="text"
+              placeholder="Enter your city or country"
+            />
+
+            <button class="submit" type="submit">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+
+          <div class="position">
+            <i class="fa-solid fa-location-dot"></i>
+          </div>
+       
+        </form>
+     
+         
+      </header>
+
+      <div class="weather-info">
+        <div class="main-days">
+        <div class="days">
+          <!-- <div class="day day-active">
+            <p class="date">Thu <span class="day-number">9</span>th</p>
+
+            <div class="weather">
+              <img class="weather-img" src="/img/img-2-night.svg" alt="" />
+              <div class="max-min">
+                <p class="max">
+                  9<span><strong>°</strong> </span>
+                </p>
+                <p class="min">
+                  1<span><strong>°</strong> </span>
+                </p>
+              </div>
+            </div>
+          </div> -->
+        
+        </div>
+        <button class="scroll-right btnscroll">&#8594
+        </button>
+        <button class="scroll-left btnscroll">&#8592
+
+        </button>
+      </div>
+      <div class="main-hours">
+
+        <div class="hours">
+          <!-- <div class="hour">
+            <p class="time">
+              <span class="span-hour"><strong>21</strong></span
+              >00
+            </p>
+
+            <div class="weather-hour">
+              <img src="/img/snowy-3.svg" alt="weather" />
+              <p class="degree">
+                9<span><strong>°</strong> </span>
+              </p>
+            </div>
+
+            <div class="precipitation">0<span>%</span></div>
+          </div> -->
+        </div>
+
+
+        <button class="scroll-right-hours btnscroll">&#8594
+        </button>
+        <button class="scroll-left-hours btnscroll">&#8592
+      </div>
+
+      </div>
+
+      <div class="sunset-sunrise">
+        <div class="sunrise">
+          <img src="/img/weather_sunrise.svg" alt="sunrise" />
+          <p class="time-rise-set sunrise-time">
+            Sunrise <span class="time-sunrise"></span>
+          </p>
+        </div>
+
+        <div class="sunset">
+          <img src="/img/weather_sunset.svg" alt="sunrise" />
+          <p class="time-rise-set sunset-time">
+            Sunset <span class="time-sunset"></span>
+          </p>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>
