@@ -174,7 +174,7 @@ class weatherApp {
     <p class="date">${day.date}</p>
 
     <div class="weather">
-      <img class="weather-img" src="/img/img-${
+      <img class="weather-img" src="img/img-${
         day.weathercode
       }-${day._getnightOrDay()}.svg" alt="" />
       <div class="max-min">
@@ -205,7 +205,7 @@ class weatherApp {
   </p>
 
   <div class="weather-hour">
-    <img src="/img/img-${day.weathercodeH[index]}-${
+    <img src="img/img-${day.weathercodeH[index]}-${
       new Date(day.timeH[index]).getTime() <= new Date(day.sunrise).getTime() ||
       new Date(day.timeH[index]).getTime() >= new Date(day.sunset).getTime()
         ? "night"
