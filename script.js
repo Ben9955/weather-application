@@ -18,6 +18,8 @@ const scrollLeftHours = document.querySelector(".scroll-left-hours");
 const hamburger = document.querySelector(".hamburger");
 
 const positionBtn = document.querySelector(".position");
+
+const locationParg = document.querySelector(".location");
 /*
 
 
@@ -113,9 +115,14 @@ class weatherApp {
       let latitude = lat;
       let longitude = lng;
       if (!lat && !lng) {
+        locationParg.textContent = "Based on your location";
         // getting user position
         const position = await this._getPosition();
         ({ latitude, longitude } = position.coords);
+        const respGeoc = await fetch(
+          `https:geocode.xyz/${latitude},${longitude}?geoit=json`
+        );
+
       }
 
       // getting weather info
@@ -154,8 +161,6 @@ class weatherApp {
 
       daysContainer.querySelector(".day").classList.add("day-active");
       this._movecurrentHour();
-      // this._slider();
-      console.log(this.#days);
     } catch (err) {
       console.error(err);
     }
@@ -174,8 +179,8 @@ class weatherApp {
     <p class="date">${day.date}</p>
 
     <div class="weather">
-      <img class="weather-img" src="img/img-${
-         day.weathercode
+      <img class="weather-img" src="/img/img-${
+        day.weathercode
       }-${day._getnightOrDay()}.svg" alt="" />
       <div class="max-min">
         <p class="max">
@@ -205,12 +210,12 @@ class weatherApp {
   </p>
 
   <div class="weather-hour">
-    <img src="img/img-${day.weathercodeH[index]}-${
+    <img src="/img/img-${day.weathercodeH[index]}-${
       new Date(day.timeH[index]).getTime() <= new Date(day.sunrise).getTime() ||
       new Date(day.timeH[index]).getTime() >= new Date(day.sunset).getTime()
         ? "night"
         : "day"
-    }.svg" alt="" />
+    }.svg" alt="weather" />
     <p class="degree">
       ${Math.round(day.temperatureH[index])}<span><strong>°</strong> </span>
     </p>
@@ -242,11 +247,9 @@ class weatherApp {
   _changeHours(e) {
     const dayCont = e.target.closest(".day");
     if (!dayCont) return;
-    console.log(dayCont);
     hoursContainer.textContent = "";
     console.log(dayCont.dataset.date);
     const day = this.#days.find((d) => d.time == dayCont.dataset.date);
-    console.log(day);
 
     day.temperatureH.forEach((_, index) => {
       this._renderehour(day, index);
@@ -339,21 +342,19 @@ class weatherApp {
   _search(e) {
     e.preventDefault();
     let country = document.querySelector(".search").value;
-    console.log(country);
     fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${country}`)
       .then((response) => {
-        console.log(Response);
         return response.json();
       })
       .then((data) => {
         const country = data.results[0];
         console.log(country.latitude, country.longitude);
+        locationParg.textContent = `${country.name},${country.country_code}`;
         this._getmeteoInfo(country.latitude, country.longitude);
       });
 
     document.querySelector(".search").value = "";
     form.classList.remove("form-active");
-
   }
 
   _toggleForm(e) {
