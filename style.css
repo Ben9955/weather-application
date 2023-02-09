@@ -14,8 +14,16 @@ body {
   min-height: 100vh;
 }
 .main {
+  position: relative;
   min-height: 100vh;
   padding: 2rem 5rem;
+}
+.location {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: #444;
+  font-weight: 600;
 }
 
 .header {
@@ -642,5 +650,14 @@ body {
 
   .time-rise-set {
     text-align: center;
+  }
+
+  .location {
+    position: absolute;
+    top: 11.5rem;
+    left: 1rem;
+    color: #444;
+    font-weight: 600;
+    font-size: 0.9rem;
   }
 }
