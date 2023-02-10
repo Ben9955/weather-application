@@ -221,7 +221,6 @@ class weatherApp {
     ).padStart(2, 0)}</strong></span
     >00
   </p>
-
   <div class="weather-hour">
     <img src="img/img-${day.weathercodeH[index]}-${
       new Date(day.timeH[index]).getTime() <= new Date(day.sunrise).getTime() ||
@@ -402,3 +401,4 @@ class weatherApp {
 }
 
 const app = new weatherApp();
+
