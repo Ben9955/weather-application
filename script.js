@@ -39,8 +39,14 @@ class day {
     humidityH,
     temperatureH,
     timeH,
-    weathercodeH
+    weathercodeH,
+    visibility,
+    windSpeed,
+    airPressure
   ) {
+    this.visibility = visibility;
+    this.windSpeed = windSpeed;
+    this.airPressure = airPressure;
     this.time = time;
     this.weathercode = weathercode;
     this.temperatureMax = Math.round(temperatureMax);
@@ -118,23 +124,25 @@ class weatherApp {
         locationParg.textContent = "Based on your location";
         // getting user position
         const position = await this._getPosition();
+        console.log(position);
         ({ latitude, longitude } = position.coords);
         const respGeoc = await fetch(
           `https:geocode.xyz/${latitude},${longitude}?geoit=json`
         );
 
+        console.log(await respGeoc.json());
       }
 
       // getting weather info
       const weather = await fetch(
-        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,precipitation,weathercode&daily=weathercode,temperature_2m_max,temperature_2m_min,sunrise,sunset&timezone=auto`
+        `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=temperature_2m,relativehumidity_2m,precipitation,weathercode,visibility,pressure_msl&daily=weathercode,temperature_2m_max,temperature_2m_min,windspeed_10m_max,sunrise,sunset&timezone=auto`
       );
 
       const weatherInfo = await weather.json();
       if (!weather.ok) throw new Error(weatherInfo.reason);
 
       const { daily, hourly } = weatherInfo;
-
+      console.log(daily, hourly);
       daily.time.forEach((time, index) => {
         const newDay = new day(
           time,
@@ -147,7 +155,10 @@ class weatherApp {
           hourly.relativehumidity_2m.splice(0, 24),
           hourly.temperature_2m.splice(0, 24),
           hourly.time.splice(0, 24),
-          hourly.weathercode.splice(0, 24)
+          hourly.weathercode.splice(0, 24),
+          hourly.visibility.splice(0, 24),
+          daily.windspeed_10m_max[index],
+          hourly.pressure_msl.splice(0, 24)
         );
         this.#days.push(newDay);
         this._renderedays(newDay);
@@ -161,6 +172,8 @@ class weatherApp {
 
       daysContainer.querySelector(".day").classList.add("day-active");
       this._movecurrentHour();
+      // this._slider();
+      console.log(this.#days);
     } catch (err) {
       console.error(err);
     }
@@ -179,7 +192,7 @@ class weatherApp {
     <p class="date">${day.date}</p>
 
     <div class="weather">
-      <img class="weather-img" src="img/img-${
+      <img class="weather-img" src="/img/img-${
         day.weathercode
       }-${day._getnightOrDay()}.svg" alt="" />
       <div class="max-min">
@@ -210,7 +223,7 @@ class weatherApp {
   </p>
 
   <div class="weather-hour">
-    <img src="img/img-${day.weathercodeH[index]}-${
+    <img src="/img/img-${day.weathercodeH[index]}-${
       new Date(day.timeH[index]).getTime() <= new Date(day.sunrise).getTime() ||
       new Date(day.timeH[index]).getTime() >= new Date(day.sunset).getTime()
         ? "night"
@@ -247,9 +260,11 @@ class weatherApp {
   _changeHours(e) {
     const dayCont = e.target.closest(".day");
     if (!dayCont) return;
+    console.log(dayCont);
     hoursContainer.textContent = "";
     console.log(dayCont.dataset.date);
     const day = this.#days.find((d) => d.time == dayCont.dataset.date);
+    console.log(day);
 
     day.temperatureH.forEach((_, index) => {
       this._renderehour(day, index);
@@ -330,6 +345,25 @@ class weatherApp {
       (h) => h.dataset.hour == hour
     );
 
+    const index = this.#days[0].timeH.findIndex(
+      (t) => new Date(t).getHours() == hour
+    );
+
+    document.querySelector(".humidity").textContent =
+      this.#days[0].humidityH[index];
+
+    document.querySelector(".visibility").textContent = Math.floor(
+      this.#days[0].visibility[index] / 1000
+    );
+    document.querySelector(".wind-speed").textContent = Math.round(
+      this.#days[0].windSpeed
+    );
+
+    document.querySelector(".air-pressure").textContent = Math.round(
+      this.#days[0].airPressure[index]
+    );
+    console.log(currentHour);
+    console.log(index);
     currentHour.classList.add("hour-active");
 
     const currentHourCoords = currentHour.getBoundingClientRect();
@@ -342,13 +376,17 @@ class weatherApp {
   _search(e) {
     e.preventDefault();
     let country = document.querySelector(".search").value;
+    console.log(country);
     fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${country}`)
       .then((response) => {
+        console.log(Response);
         return response.json();
       })
       .then((data) => {
+        console.log(data);
         const country = data.results[0];
         console.log(country.latitude, country.longitude);
+        console.log(country);
         locationParg.textContent = `${country.name}, ${country.admin1} (${country.country_code})`;
         this._getmeteoInfo(country.latitude, country.longitude);
       });
