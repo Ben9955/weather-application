@@ -126,11 +126,7 @@ class weatherApp {
         const position = await this._getPosition();
         console.log(position);
         ({ latitude, longitude } = position.coords);
-        const respGeoc = await fetch(
-          `https:geocode.xyz/${latitude},${longitude}?geoit=json`
-        );
 
-        console.log(await respGeoc.json());
       }
 
       // getting weather info
